@@ -1,11 +1,20 @@
 const express = require('express')
 const pug = require('pug')
 const mongoose = require('mongoose')
+const schemas = require('./schemas')
 
 const app = express()
 
-mongoose.connect('mongodb://localhost/')
-const db = mongoose.connection
+const connection = mongoose.createConnection('mongodb://localhost/website', options={useNewUrlParser: true,useUnifiedTopology: true})
+
+// var testuser = new schemas.user({username: "screennoodle",email: "rohan8dewan@hotmail.com", hash: "test"})
+// testuser.save()
+
+const user = connection.model('users')
+var query = user.find({}, function(err,person) {
+	console.log(person)
+})
+console.log()
 
 app.set('view engine', 'pug')
 
