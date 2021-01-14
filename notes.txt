@@ -1,0 +1,8 @@
+Creating posts
+-page for creating posts
+-posts consist of:
+	-title
+	-body
+	-tags
+	-date
+	-pictures

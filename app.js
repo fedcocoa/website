@@ -1,22 +1,11 @@
-const express = require('express')
-const pug = require('pug')
-const mongoose = require('mongoose')
-const schemas = require('./schemas')
+const express = require('express') //web framework
+const pug = require('pug') //templating framework
+const mongoose = require('mongoose') //database framework
+const helmet = require('helmet') //security framework
+const schemas = require('./schemas') //own made schemas
+const bcrypt = require('bcrypt') //bcrypt hashing
 
 const app = express()
-
-const connection = mongoose.createConnection('mongodb://localhost/website', options={useNewUrlParser: true,useUnifiedTopology: true})
-
-// var testuser = new schemas.user({username: "screennoodle",email: "rohan8dewan@hotmail.com", hash: "test"})
-// testuser.save()
-
-const user = connection.model('users')
-var query = user.find({}, function(err,person) {
-	console.log(person)
-})
-console.log()
-
-app.set('view engine', 'pug')
 
 var logger = function(req, res, next) {
 	var time = new Date();
@@ -24,12 +13,31 @@ var logger = function(req, res, next) {
 	next()
 }
 
+app.set('view engine', 'pug')
 app.use(logger)
 app.use(express.static('static'))
+app.use(helmet())
+
+//connect to mongodb
+// const connection = mongoose.createConnection('mongodb://localhost:27017/website', options={useNewUrlParser: true,useUnifiedTopology: true});
+
+//add user to db
+// var hash = bcrypt.hashSync("password",8);
+// console.log(hash)
+// console.log(bcrypt.compareSync("password",hash))
+// var testuser = new schemas.user({username: "insecureUser",email: "iusebadpw@awful.com", hash: hash})
+// testuser.save()
+
+//read users from db
+// const user = connection.model('users')
+// var query = user.find({}, function(err,person) {
+// 	console.log(person)
+// })
+
 
 app.get('/', function(req,res) {
 	res.render('test')
 })
 
 
-app.listen(80)
+app.listen(5000)
